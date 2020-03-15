@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile:  ./nginx/Dockerfile
+    volumes:
+      - ./site/data:/usr/share/nginx/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - 25564:80
+  jekyll:
+    build:
+      context: .
+      dockerfile:  ./jekyll/Dockerfile
+    volumes:
+      - ./site/source:/srv/jekyll
+      - ./site/data:/srv/jekyll/_site
+  autopull:
+    build:
+      context: .
+      dockerfile: ./autopull/Dockerfile
+    ports:
+      - 9091:9091
+    volumes:
+      - ./site/source:/usr/local/lib/site
+      - ./autopull:/usr/local/lib   
